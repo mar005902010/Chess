@@ -18,7 +18,7 @@ static Texture loadtexture(const std::string& path) {
 }
 
 Pawn::Pawn(PieceColor color, int x, int y):Piece(PieceType::PAWN, color, x, y), texture(loadtexture("/Users/marius/CLionProjects/Chess/Pieces/Black/black_pawn.png")), sprite(texture) {
-    sprite.setPosition({static_cast<float>(x), static_cast<float>(y)});
+    sprite.setPosition({320.f+static_cast<float>(x)*80.f,40.f+static_cast<float>(y)*80.f});
 }
 
 bool Pawn::isMoved(int t_x, int t_y, const BoardGrid &board) {
@@ -56,19 +56,7 @@ bool Pawn::isMoved(int t_x, int t_y, const BoardGrid &board) {
 //Draw Pawn
 
 void Pawn::draw(RenderWindow &window) {
-    //Draw at starting position
-    Texture texture("/Users/marius/CLionProjects/Chess/Pieces/Black/black_pawn.png");
-    texture.setSmooth(true);
-    Sprite pawn(texture);
-    float pawn_x = 320;
-
-    for (int i=1;i<=8;i++) {
-        pawn.setPosition({pawn_x, Board::PawnSideDown_start_y});
-        window.draw(pawn);
-        pawn_x += 80;
-    }
-
-
+    window.draw(sprite);
 }
 
 void Pawn::movement(RenderWindow &window) {
@@ -76,9 +64,6 @@ void Pawn::movement(RenderWindow &window) {
     const Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
 
     const bool leftPressed = Mouse::isButtonPressed(Mouse::Button::Left);
-
-    static bool dragging = false;
-    static Vector2f dragOffset{0.f, 0.f};
 
     const FloatRect bounds = sprite.getGlobalBounds();
 
@@ -121,9 +106,6 @@ void Pawn::movement(RenderWindow &window) {
 
             setPosition(boardx, boardy);
         }
-
-        dragging = false;
-        moved = false;
     }
     moved = leftPressed;
 

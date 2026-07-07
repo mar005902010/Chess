@@ -14,6 +14,8 @@ private:
     Texture texture;
     Sprite sprite{texture};
     bool moved=false;
+    bool dragging =false;
+    Vector2f dragOffset{0.f,0.f};
 };
 
 #endif
