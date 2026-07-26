@@ -15,7 +15,6 @@ int main() {
     Board board;
 
     std::vector<std::shared_ptr<Pawn>> pawns;
-    pawns.emplace_back(std::make_shared<Pawn>(PieceColor::WHITE, 0, 6));
     for (int i=0; i<8;++i) {
         pawns.emplace_back(std::make_shared<Pawn>(PieceColor::BLACK, i, 1));
     }
