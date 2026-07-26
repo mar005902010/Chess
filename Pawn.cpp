@@ -110,7 +110,7 @@ void Pawn::movement(RenderWindow &window, const BoardGrid& board, const Board& l
             }
             dragging = false;
 
-            setPosition(boardx, boardy);
+
         }
     }
     moved = leftPressed;
