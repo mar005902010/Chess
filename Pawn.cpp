@@ -59,7 +59,7 @@ void Pawn::draw(RenderWindow &window) {
     window.draw(sprite);
 }
 
-void Pawn::movement(RenderWindow &window) {
+void Pawn::movement(RenderWindow &window, const BoardGrid& board, const Board& layout) {
 
     const Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
 
@@ -99,10 +99,16 @@ void Pawn::movement(RenderWindow &window) {
             float snappedX = boardLeft + std::round((releasePos.x - boardLeft) / squareSize)*squareSize;
             float snappedY = boardTop + std::round((releasePos.y - boardTop) / squareSize)*squareSize;
 
-            sprite.setPosition({snappedX, snappedY});
-
             int boardx = static_cast<int>((snappedX-boardLeft)/squareSize);
             int boardy = static_cast<int>((snappedY-boardTop)/squareSize);
+
+            if (isMoved(boardx, boardy, board)) {
+                sprite.setPosition({snappedX, snappedY});
+                setPosition(boardx, boardy);
+            }else {
+                sprite.setPosition({320.f + static_cast<float>(g_x)*80.f, 40.f + static_cast<float>(g_y)*80.f});
+            }
+            dragging = false;
 
             setPosition(boardx, boardy);
         }
@@ -110,4 +116,3 @@ void Pawn::movement(RenderWindow &window) {
     moved = leftPressed;
 
 }
-

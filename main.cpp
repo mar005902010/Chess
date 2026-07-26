@@ -13,7 +13,23 @@ int main() {
     RenderWindow window(VideoMode({1280,720}), "chess");
     window.setFramerateLimit(60);
     Board board;
-    Pawn pawn(PieceColor::WHITE, 0,1);
+
+    std::vector<std::shared_ptr<Pawn>> pawns;
+    pawns.emplace_back(std::make_shared<Pawn>(PieceColor::WHITE, 0, 6));
+    for (int i=0; i<8;++i) {
+        pawns.emplace_back(std::make_shared<Pawn>(PieceColor::BLACK, i, 6));
+    }
+
+    auto buildBoardGrid = [&]() {
+        BoardGrid boardGrid(8, std::vector<std::shared_ptr<Piece>>(8));
+        for (const auto& pawn : pawns) {
+            if (pawn->isCaptured()) {
+                continue;
+            }
+            boardGrid[pawn->getY()][pawn->getX()] = pawn;
+        }
+        return boardGrid;
+    };
 
     while (window.isOpen()) {
 
@@ -24,10 +40,15 @@ int main() {
                 if (keyPressed->scancode == Keyboard::Scancode::Escape) window.close();
             }
         }
-        pawn.movement(window);
+        for (auto& pawn : pawns) {
+            const BoardGrid boardGrid = buildBoardGrid();
+            pawn->movement(window, boardGrid, board);
+        }
         window.clear(Color::White);
         board.draw(window);
-        pawn.draw(window);
+        for (auto& pawn : pawns) {
+            pawn->draw(window);
+        }
 
         window.display();
 

@@ -17,6 +17,7 @@ Board::Board(float startX, float startY, float squareSize)
     :m_startX(startX),
     m_startY(startY),
     m_squareSize(squareSize),
+    m_Lcolor(238, 238, 210),
     m_Dcolor(128, 128, 128)
 {
     m_square.setSize({m_squareSize, m_squareSize});
@@ -43,4 +44,16 @@ void Board::draw(RenderWindow& window) {
             window.draw(m_square);
         }
     }
+}
+
+float Board::getStartX() const {
+    return m_startX;
+}
+
+float Board::getStartY() const {
+    return m_startY;
+}
+
+float Board::getSquareSize() const {
+    return m_squareSize;
 }

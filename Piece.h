@@ -21,6 +21,7 @@ class Piece {
         PieceColor color;
         int g_x, g_y;
         bool hasMoved;
+        bool captured;
     public:
         Piece(PieceType type, PieceColor color, int x, int y);
         virtual ~Piece() = default;
@@ -31,8 +32,10 @@ class Piece {
         int getX() const;
         int getY() const;
         bool getHasMoved() const;
+        bool isCaptured() const;
 
         void setPosition(int x, int y);
+        void capture();
 };
 
 
