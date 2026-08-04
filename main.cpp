@@ -3,6 +3,7 @@
 #include "Board.h"
 #include "Pawn.h"
 #include "King.h"
+#include "Queen.h"
 #include <iostream>
 
 using namespace sf;
@@ -15,6 +16,7 @@ int main() {
     window.setFramerateLimit(60);
     Board board;
     auto king = make_shared<King>(PieceColor::BLACK, 4, 0);
+    auto queen = make_shared<Queen>(PieceColor::BLACK, 3, 0);
     std::vector<std::shared_ptr<Pawn>> pawns;
     for (int i=0; i<8;++i) {
         pawns.emplace_back(std::make_shared<Pawn>(PieceColor::BLACK, i, 1));
@@ -31,6 +33,9 @@ int main() {
         if (!king->isCaptured()) {
             boardGrid[king->getY()][king->getX()] = king;
         }
+        if (!queen->isCaptured()) {
+            boardGrid[queen->getY()][queen->getX()] = queen;
+        }
         return boardGrid;
     };
 
@@ -45,6 +50,7 @@ int main() {
         }
         const BoardGrid boardGrid = buildBoardGrid();
         king->movement(window, boardGrid, board);
+        queen->movement(window, boardGrid, board);
         for (auto& pawn : pawns) {
             const BoardGrid boardGrid = buildBoardGrid();
             pawn->movement(window, boardGrid, board);
@@ -52,6 +58,7 @@ int main() {
         window.clear(Color::White);
         board.draw(window);
         king->draw(window);
+        queen->draw(window);
         for (auto& pawn : pawns) {
             pawn->draw(window);
         }

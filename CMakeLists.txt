@@ -13,6 +13,8 @@ add_executable(Chess main.cpp
         Pawn.cpp
         Pawn.h
         King.cpp
-        King.h)
+        King.h
+        Queen.cpp
+        Queen.h)
 
 target_link_libraries(Chess PRIVATE SFML::Graphics SFML::Window SFML::System)
