@@ -15,6 +15,10 @@ add_executable(Chess main.cpp
         King.cpp
         King.h
         Queen.cpp
-        Queen.h)
+        Queen.h
+        Rook.cpp
+        Rook.h
+        Bishop.cpp
+        Bishop.h)
 
 target_link_libraries(Chess PRIVATE SFML::Graphics SFML::Window SFML::System)
