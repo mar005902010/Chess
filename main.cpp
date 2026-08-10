@@ -6,6 +6,7 @@
 #include "Queen.h"
 #include "Rook.h"
 #include "Bishop.h"
+#include "Knight.h"
 #include <iostream>
 
 using namespace sf;
@@ -23,6 +24,8 @@ int main() {
     auto rook1 = make_shared<Rook>(PieceColor::BLACK, 7, 0);
     auto bishop = make_shared<Bishop>(PieceColor::BLACK, 2, 0);
     auto bishop1 = make_shared<Bishop>(PieceColor::BLACK, 5, 0);
+    auto knight = make_shared<Knight>(PieceColor::BLACK, 1, 0);
+    auto knight1 = make_shared<Knight>(PieceColor::BLACK, 6, 0);
     std::vector<std::shared_ptr<Pawn>> pawns;
     for (int i=0; i<8;++i) {
         pawns.emplace_back(std::make_shared<Pawn>(PieceColor::BLACK, i, 1));
@@ -54,6 +57,12 @@ int main() {
         if (!bishop1->isCaptured()) {
             boardGrid[bishop1->getY()][bishop1->getX()] = bishop1;
         }
+        if (!knight->isCaptured()) {
+            boardGrid[knight->getY()][knight->getX()] = knight;
+        }
+        if (!knight1->isCaptured()) {
+            boardGrid[knight1->getY()][knight1->getX()] = knight1;
+        }
         return boardGrid;
     };
 
@@ -73,6 +82,8 @@ int main() {
         rook1->movement(window, boardGrid, board);
         bishop->movement(window, boardGrid, board);
         bishop1->movement(window, boardGrid, board);
+        knight->movement(window, boardGrid, board);
+        knight1->movement(window, boardGrid, board);
         for (auto& pawn : pawns) {
             const BoardGrid boardGrid = buildBoardGrid();
             pawn->movement(window, boardGrid, board);
@@ -85,6 +96,8 @@ int main() {
         rook1->draw(window);
         bishop->draw(window);
         bishop1->draw(window);
+        knight->draw(window);
+        knight1->draw(window);
         for (auto& pawn : pawns) {
             pawn->draw(window);
         }
