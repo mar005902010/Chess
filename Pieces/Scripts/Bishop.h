@@ -1,11 +1,17 @@
-#ifndef CHESS_KING_H
-#define CHESS_KING_H
-#include "Board.h"
-#include"Piece.h"
+#ifndef CHESS_BISHOP_H
+#define CHESS_BISHOP_H
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/System/Vector2.hpp>
 
-class King: public Piece {
+#include "../../Board.h"
+#include "Piece.h"
+
+
+class Bishop : public Piece {
 public:
-    King(PieceColor color, int x, int y);
+    Bishop(PieceColor color, int x, int y);
     bool isMoved(int t_x, int t_y, const BoardGrid& board) override;
     void draw(RenderWindow& window);
     void movement(RenderWindow& window, const BoardGrid& board, const Board& layout);
@@ -16,8 +22,7 @@ private:
     bool moved{false};
     bool dragging{false};
     Vector2f dragOffset{0.f, 0.f};
-    void movement(RenderWindow& window);
 };
 
 
-#endif
+#endif //CHESS_BISHOP_H

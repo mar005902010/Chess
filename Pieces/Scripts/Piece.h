@@ -4,7 +4,6 @@
 #define CHESS_PIECE_H
 
 #include <SFML/Graphics.hpp>
-#include <cmath>
 #include <memory>
 using namespace sf;
 using namespace std;

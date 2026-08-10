@@ -1,7 +1,7 @@
 
-#include "Piece.h"
-#include "Board.h"
-#include "Pawn.h"
+#include "/Users/marius/CLionProjects/Chess/Pieces/Scripts/Piece.h"
+#include "../../Board.h"
+#include "/Users/marius/CLionProjects/Chess/Pieces/Scripts/Pawn.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>

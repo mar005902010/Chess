@@ -1,12 +1,13 @@
-#include "Knight.h"
-#include"Piece.h"
-#include"Board.h"
+#include "/Users/marius/CLionProjects/Chess/Pieces/Scripts/King.h"
+#include "/Users/marius/CLionProjects/Chess/Pieces/Scripts/Piece.h"
+#include "../../Board.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 using namespace sf;
 #include <iostream>
 using namespace std;
+
 
 static Texture loadTexture(const string& filename) {
     Texture texture;
@@ -16,29 +17,30 @@ static Texture loadTexture(const string& filename) {
     return texture;
 }
 
-Knight::Knight(PieceColor color, int x, int y) : Piece(PieceType::KING, color, x, y), texture(loadTexture("/Users/marius/CLionProjects/Chess/Pieces/Black/black_knight.png")), sprite(texture) {
+King::King(PieceColor color, int x, int y) : Piece(PieceType::KING, color, x, y), texture(loadTexture("/Users/marius/CLionProjects/Chess/Pieces/Black/black_king.png")), sprite(texture) {
     sprite.setPosition({320.f + static_cast<float>(x)*80.f, 40.f + static_cast<float>(y)*80.f});
 }
 
-bool Knight::isMoved(int t_x, int t_y, const BoardGrid &board) {
+bool King::isMoved(int t_x, int t_y, const BoardGrid &board) {
     if (t_x<0||t_y<0||t_x>=8||t_y>=8) return false;
+    if (t_x == g_x && t_y == g_y) return false;
 
-    int dx = abs(t_x-g_x);
-    int dy = abs(t_y-g_y);
+    int delta_x = t_x - g_x;
+    int delta_y = t_y - g_y;
 
-    if (!((dx==1&&dy==2)||(dx==2&&dy==1))) {
-        return false;
+    if (abs(delta_x) <=1 && abs(delta_y)<=1) {
+        auto targetPice = board[t_y][t_x];
+        return targetPice == nullptr || targetPice->getColor()!= color;
     }
 
-    auto targetPiece = board[t_y][t_x];
-    return targetPiece == nullptr || targetPiece->getColor() != color;
+    return false;
 }
 
-void Knight::draw(RenderWindow& window) {
+void King::draw(RenderWindow& window) {
     window.draw(sprite);
 }
 
-void Knight::movement(RenderWindow &window, const BoardGrid &board, const Board &layout) {
+void King::movement(RenderWindow &window, const BoardGrid &board, const Board &layout) {
     const Vector2f mousePosition = window.mapPixelToCoords(Mouse::getPosition(window));
     const bool leftPressed = Mouse::isButtonPressed(Mouse::Button::Left);
     const FloatRect bounds = sprite.getGlobalBounds();
@@ -88,6 +90,5 @@ void Knight::movement(RenderWindow &window, const BoardGrid &board, const Board 
     }
     moved = leftPressed;
 }
-
 
 

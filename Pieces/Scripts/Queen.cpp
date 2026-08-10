@@ -1,13 +1,12 @@
-#include "King.h"
-#include"Piece.h"
-#include"Board.h"
+#include "/Users/marius/CLionProjects/Chess/Pieces/Scripts/Queen.h"
+#include "Piece.h"
+#include "../../Board.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 using namespace sf;
 #include <iostream>
 using namespace std;
-
 
 static Texture loadTexture(const string& filename) {
     Texture texture;
@@ -17,30 +16,53 @@ static Texture loadTexture(const string& filename) {
     return texture;
 }
 
-King::King(PieceColor color, int x, int y) : Piece(PieceType::KING, color, x, y), texture(loadTexture("/Users/marius/CLionProjects/Chess/Pieces/Black/black_king.png")), sprite(texture) {
+Queen::Queen(PieceColor color, int x, int y) : Piece(PieceType::KING, color, x, y), texture(loadTexture("/Users/marius/CLionProjects/Chess/Pieces/Black/black_queen.png")), sprite(texture) {
     sprite.setPosition({320.f + static_cast<float>(x)*80.f, 40.f + static_cast<float>(y)*80.f});
 }
 
-bool King::isMoved(int t_x, int t_y, const BoardGrid &board) {
+bool Queen::isMoved(int t_x, int t_y, const BoardGrid &board) {
     if (t_x<0||t_y<0||t_x>=8||t_y>=8) return false;
     if (t_x == g_x && t_y == g_y) return false;
 
     int delta_x = t_x - g_x;
     int delta_y = t_y - g_y;
 
-    if (abs(delta_x) <=1 && abs(delta_y)<=1) {
-        auto targetPice = board[t_y][t_x];
-        return targetPice == nullptr || targetPice->getColor()!= color;
+    bool sameRow=(delta_y==0);
+    bool sameCol=(delta_x==0);
+    bool diagonal=(abs(delta_x) == abs(delta_y));
+
+    if (!sameRow && !sameCol && !diagonal) return false;
+
+    int stepX, stepY;
+
+    if (delta_x == 0) stepX = 0;
+    else if (delta_x>0) stepX = 1;
+    else stepX = -1;
+
+    if (delta_y == 0) stepY = 0;
+    else if (delta_y>0) stepY = 1;
+    else stepY = -1;
+
+    int x = g_x + stepX;
+    int y = g_y + stepY;
+
+    while (x!= t_x || y!= t_y) {
+        if (board[y][x] != nullptr) {
+            return false;
+        }
+        x+=stepX;
+        y+=stepY;
     }
 
-    return false;
+    auto targetPice = board[t_y][t_x];
+    return targetPice == nullptr || targetPice->getColor() != color;
 }
 
-void King::draw(RenderWindow& window) {
+void Queen::draw(RenderWindow& window) {
     window.draw(sprite);
 }
 
-void King::movement(RenderWindow &window, const BoardGrid &board, const Board &layout) {
+void Queen::movement(RenderWindow &window, const BoardGrid &board, const Board &layout) {
     const Vector2f mousePosition = window.mapPixelToCoords(Mouse::getPosition(window));
     const bool leftPressed = Mouse::isButtonPressed(Mouse::Button::Left);
     const FloatRect bounds = sprite.getGlobalBounds();
@@ -90,5 +112,6 @@ void King::movement(RenderWindow &window, const BoardGrid &board, const Board &l
     }
     moved = leftPressed;
 }
+
 
 

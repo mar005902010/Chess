@@ -1,7 +1,7 @@
 #ifndef CHESS_ROOK_H
 #define CHESS_ROOK_H
 #include "Piece.h"
-#include "Board.h"
+#include "../../Board.h"
 
 class Rook: public Piece{
 public:

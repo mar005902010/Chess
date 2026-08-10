@@ -1,6 +1,6 @@
-#include "Bishop.h"
-#include"Piece.h"
-#include"Board.h"
+#include "/Users/marius/CLionProjects/Chess/Pieces/Scripts/Rook.h"
+#include "Piece.h"
+#include "../../Board.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
@@ -16,20 +16,21 @@ static Texture loadTexture(const string& filename) {
     return texture;
 }
 
-Bishop::Bishop(PieceColor color, int x, int y) : Piece(PieceType::KING, color, x, y), texture(loadTexture("/Users/marius/CLionProjects/Chess/Pieces/Black/black_bishop.png")), sprite(texture) {
+Rook::Rook(PieceColor color, int x, int y) : Piece(PieceType::KING, color, x, y), texture(loadTexture("/Users/marius/CLionProjects/Chess/Pieces/Black/black_rook.png")), sprite(texture) {
     sprite.setPosition({320.f + static_cast<float>(x)*80.f, 40.f + static_cast<float>(y)*80.f});
 }
 
-bool Bishop::isMoved(int t_x, int t_y, const BoardGrid &board) {
+bool Rook::isMoved(int t_x, int t_y, const BoardGrid &board) {
     if (t_x<0||t_y<0||t_x>=8||t_y>=8) return false;
     if (t_x == g_x && t_y == g_y) return false;
 
     int delta_x = t_x - g_x;
     int delta_y = t_y - g_y;
 
-    bool diagonal=(abs(delta_x) == abs(delta_y));
+    bool sameRow=(delta_y==0);
+    bool sameCol=(delta_x==0);
 
-    if (!diagonal) return false;
+    if (!sameRow && !sameCol) return false;
 
     int stepX, stepY;
 
@@ -56,11 +57,11 @@ bool Bishop::isMoved(int t_x, int t_y, const BoardGrid &board) {
     return targetPice == nullptr || targetPice->getColor() != color;
 }
 
-void Bishop::draw(RenderWindow& window) {
+void Rook::draw(RenderWindow& window) {
     window.draw(sprite);
 }
 
-void Bishop::movement(RenderWindow &window, const BoardGrid &board, const Board &layout) {
+void Rook::movement(RenderWindow &window, const BoardGrid &board, const Board &layout) {
     const Vector2f mousePosition = window.mapPixelToCoords(Mouse::getPosition(window));
     const bool leftPressed = Mouse::isButtonPressed(Mouse::Button::Left);
     const FloatRect bounds = sprite.getGlobalBounds();

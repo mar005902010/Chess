@@ -8,19 +8,19 @@ find_package(SFML 3.0.2 COMPONENTS Graphics Window System REQUIRED)
 add_executable(Chess main.cpp
         Board.cpp
         Board.h
-        Piece.cpp
-        Piece.h
-        Pawn.cpp
-        Pawn.h
-        King.cpp
-        King.h
-        Queen.cpp
-        Queen.h
-        Rook.cpp
-        Rook.h
-        Bishop.cpp
-        Bishop.h
-        Knight.cpp
-        Knight.h)
+        Pieces/Scripts/Piece.cpp
+        Pieces/Scripts/Piece.h
+        Pieces/Scripts/Pawn.cpp
+        Pieces/Scripts/Pawn.h
+        Pieces/Scripts/King.cpp
+        Pieces/Scripts/King.h
+        Pieces/Scripts/Queen.cpp
+        Pieces/Scripts/Queen.h
+        Pieces/Scripts/Rook.cpp
+        Pieces/Scripts/Rook.h
+        Pieces/Scripts/Bishop.cpp
+        Pieces/Scripts/Bishop.h
+        Pieces/Scripts/Knight.cpp
+        Pieces/Scripts/Knight.h)
 
 target_link_libraries(Chess PRIVATE SFML::Graphics SFML::Window SFML::System)

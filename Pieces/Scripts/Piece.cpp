@@ -1,6 +1,4 @@
-#include <cmath>
-#include "Piece.h"
-#include "Board.h"
+#include "/Users/marius/CLionProjects/Chess/Pieces/Scripts/Piece.h"
 
 Piece::Piece(PieceType pieceT, PieceColor c, int pieceX, int pieceY)
     :type(pieceT), color(c), g_x(pieceX), g_y(pieceY), hasMoved(false), captured(false){}

@@ -1,13 +1,12 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "Board.h"
-#include "Pawn.h"
-#include "King.h"
-#include "Queen.h"
-#include "Rook.h"
-#include "Bishop.h"
-#include "Knight.h"
-#include <iostream>
+#include "Pieces/Scripts/Pawn.h"
+#include "Pieces/Scripts/King.h"
+#include "Pieces/Scripts/Queen.h"
+#include "Pieces/Scripts/Rook.h"
+#include "Pieces/Scripts/Bishop.h"
+#include "Pieces/Scripts/Knight.h"
 
 using namespace sf;
 using namespace std;
