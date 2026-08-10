@@ -17,7 +17,7 @@ static Texture loadTexture(const string& filename) {
     return texture;
 }
 
-King::King(PieceColor color, int x, int y) : Piece(PieceType::KING, color, x, y), texture(loadTexture("/Users/marius/CLionProjects/Chess/Pieces/Black/black_king.png")), sprite(texture) {
+King::King(PieceColor color, int x, int y) : Piece(PieceType::KING, color, x, y), texture(loadTexture("/Users/marius/CLionProjects/Chess/Pieces/Colors/Black/black_king.png")), sprite(texture) {
     sprite.setPosition({320.f + static_cast<float>(x)*80.f, 40.f + static_cast<float>(y)*80.f});
 }
 

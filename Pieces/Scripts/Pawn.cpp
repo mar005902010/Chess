@@ -17,7 +17,7 @@ static Texture loadtexture(const std::string& path) {
     return texture;
 }
 
-Pawn::Pawn(PieceColor color, int x, int y):Piece(PieceType::PAWN, color, x, y), texture(loadtexture("/Users/marius/CLionProjects/Chess/Pieces/Black/black_pawn.png")), sprite(texture) {
+Pawn::Pawn(PieceColor color, int x, int y):Piece(PieceType::PAWN, color, x, y), texture(loadtexture("/Users/marius/CLionProjects/Chess/Pieces/Colors/Black/black_pawn.png")), sprite(texture) {
     sprite.setPosition({320.f+static_cast<float>(x)*80.f,40.f+static_cast<float>(y)*80.f});
 }
 

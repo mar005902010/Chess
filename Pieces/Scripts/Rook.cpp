@@ -16,7 +16,7 @@ static Texture loadTexture(const string& filename) {
     return texture;
 }
 
-Rook::Rook(PieceColor color, int x, int y) : Piece(PieceType::KING, color, x, y), texture(loadTexture("/Users/marius/CLionProjects/Chess/Pieces/Black/black_rook.png")), sprite(texture) {
+Rook::Rook(PieceColor color, int x, int y) : Piece(PieceType::KING, color, x, y), texture(loadTexture("/Users/marius/CLionProjects/Chess/Pieces/Colors/Black/black_rook.png")), sprite(texture) {
     sprite.setPosition({320.f + static_cast<float>(x)*80.f, 40.f + static_cast<float>(y)*80.f});
 }
 
