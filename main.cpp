@@ -17,6 +17,7 @@ int main() {
     RenderWindow window(VideoMode({1280,720}), "chess");
     window.setFramerateLimit(60);
     Board board;
+    //Black Pieces
     auto king = make_shared<King>(PieceColor::BLACK, 4, 0);
     auto queen = make_shared<Queen>(PieceColor::BLACK, 3, 0);
     auto rook = make_shared<Rook>(PieceColor::BLACK, 0, 0);
@@ -28,6 +29,18 @@ int main() {
     std::vector<std::shared_ptr<Pawn>> pawns;
     for (int i=0; i<8;++i) {
         pawns.emplace_back(std::make_shared<Pawn>(PieceColor::BLACK, i, 1));
+    }
+    //White Pieces
+    auto wking = make_shared<King>(PieceColor::WHITE, 4, 7);
+    auto wqueen = make_shared<Queen>(PieceColor::WHITE, 3, 7);
+    auto wrook = make_shared<Rook>(PieceColor::WHITE, 0, 7);
+    auto wrook1 = make_shared<Rook>(PieceColor::WHITE, 7, 7);
+    auto wbishop = make_shared<Bishop>(PieceColor::WHITE, 2, 7);
+    auto wbishop1 = make_shared<Bishop>(PieceColor::WHITE, 5, 7);
+    auto wknight = make_shared<Knight>(PieceColor::WHITE, 1, 7);
+    auto wknight1 = make_shared<Knight>(PieceColor::WHITE, 6, 7);
+    for (int i = 0; i<8; ++i) {
+        pawns.emplace_back(std::make_shared<Pawn>(PieceColor::WHITE, i, 6));
     }
 
     auto buildBoardGrid = [&]() {
@@ -62,6 +75,30 @@ int main() {
         if (!knight1->isCaptured()) {
             boardGrid[knight1->getY()][knight1->getX()] = knight1;
         }
+        if (!wking->isCaptured()) {
+            boardGrid[wking->getY()][wking->getX()] = wking;
+        }
+        if (!wbishop->isCaptured()) {
+            boardGrid[wbishop->getY()][wbishop->getX()] = wbishop;
+        }
+        if (!wbishop1->isCaptured()) {
+            boardGrid[wbishop1->getY()][wbishop1->getX()] = wbishop1;
+        }
+        if (!wknight->isCaptured()) {
+            boardGrid[wknight->getY()][wknight->getX()] = wknight;
+        }
+        if (!wknight1->isCaptured()) {
+            boardGrid[wknight1->getY()][wknight1->getX()] = wknight1;
+        }
+        if (!wrook->isCaptured()) {
+            boardGrid[wrook->getY()][wrook->getX()] = wrook;
+        }
+        if (!wrook1->isCaptured()) {
+            boardGrid[wrook1->getY()][wrook1 -> getX()]=wrook1;
+        }
+        if (!wqueen->isCaptured()) {
+            boardGrid[wqueen->getY()][wqueen->getX()]=wqueen;
+        }
         return boardGrid;
     };
 
@@ -75,6 +112,7 @@ int main() {
             }
         }
         const BoardGrid boardGrid = buildBoardGrid();
+        //B Movement
         king->movement(window, boardGrid, board);
         queen->movement(window, boardGrid, board);
         rook->movement(window, boardGrid, board);
@@ -83,12 +121,23 @@ int main() {
         bishop1->movement(window, boardGrid, board);
         knight->movement(window, boardGrid, board);
         knight1->movement(window, boardGrid, board);
+        //W movement
+        wking->movement(window, boardGrid, board);
+        wqueen->movement(window, boardGrid, board);
+        wrook->movement(window, boardGrid, board);
+        wrook1->movement(window, boardGrid, board);
+        wbishop->movement(window, boardGrid, board);
+        wbishop1->movement(window, boardGrid, board);
+        wknight->movement(window, boardGrid, board);
+        wknight1->movement(window, boardGrid, board);
+
         for (auto& pawn : pawns) {
             const BoardGrid boardGrid = buildBoardGrid();
             pawn->movement(window, boardGrid, board);
         }
         window.clear(Color::White);
         board.draw(window);
+        //B Draw
         king->draw(window);
         queen->draw(window);
         rook->draw(window);
@@ -97,6 +146,16 @@ int main() {
         bishop1->draw(window);
         knight->draw(window);
         knight1->draw(window);
+        //W Draw
+        wking->draw(window);
+        wqueen->draw(window);
+        wrook->draw(window);
+        wrook1->draw(window);
+        wbishop->draw(window);
+        wbishop1->draw(window);
+        wknight->draw(window);
+        wknight1->draw(window);
+
         for (auto& pawn : pawns) {
             pawn->draw(window);
         }
