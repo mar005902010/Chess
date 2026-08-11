@@ -101,6 +101,10 @@ void Rook::movement(RenderWindow &window, const BoardGrid &board, const Board &l
             int boardy = static_cast<int>((snappedY - boardTop)/squareSize);
 
             if (isMoved(boardx, boardy, board)) {
+                auto targetPiece = board[boardy][boardx];
+                if (targetPiece !=nullptr && targetPiece->getColor() != color) {
+                    targetPiece->capture();
+                }
                 sprite.setPosition({snappedX, snappedY});
                 setPosition(boardx, boardy);
             }else {

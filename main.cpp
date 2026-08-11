@@ -39,6 +39,7 @@ int main() {
     auto wbishop1 = make_shared<Bishop>(PieceColor::WHITE, 5, 7);
     auto wknight = make_shared<Knight>(PieceColor::WHITE, 1, 7);
     auto wknight1 = make_shared<Knight>(PieceColor::WHITE, 6, 7);
+
     for (int i = 0; i<8; ++i) {
         pawns.emplace_back(std::make_shared<Pawn>(PieceColor::WHITE, i, 6));
     }
@@ -138,26 +139,60 @@ int main() {
         window.clear(Color::White);
         board.draw(window);
         //B Draw
-        king->draw(window);
-        queen->draw(window);
-        rook->draw(window);
-        rook1->draw(window);
-        bishop->draw(window);
-        bishop1->draw(window);
-        knight->draw(window);
-        knight1->draw(window);
+        if (!king->isCaptured()) {
+            king->draw(window);
+        }
+        if (!queen->isCaptured()) {
+            queen->draw(window);
+        }
+        if (!rook->isCaptured()) {
+            rook->draw(window);
+        }
+        if (!rook1->isCaptured()) {
+            rook1->draw(window);
+        }
+        if (!bishop->isCaptured()) {
+            bishop->draw(window);
+        }
+        if (!bishop1->isCaptured()) {
+            bishop1->draw(window);
+        }
+        if (!knight->isCaptured()) {
+            knight->draw(window);
+        }
+        if (!knight1->isCaptured()) {
+            knight1->draw(window);
+        }
         //W Draw
-        wking->draw(window);
-        wqueen->draw(window);
-        wrook->draw(window);
-        wrook1->draw(window);
-        wbishop->draw(window);
-        wbishop1->draw(window);
-        wknight->draw(window);
-        wknight1->draw(window);
+        if (!wking->isCaptured()) {
+            wking->draw(window);
+        }
+        if (!wqueen->isCaptured()) {
+            wqueen->draw(window);
+        }
+        if (!wrook->isCaptured()) {
+            wrook->draw(window);
+        }
+        if (!wrook1->isCaptured()) {
+            wrook1->draw(window);
+        }
+        if (!wbishop->isCaptured()) {
+            wbishop->draw(window);
+        }
+        if (!wbishop1->isCaptured()) {
+            wbishop1->draw(window);
+        }
+        if (!wknight->isCaptured()) {
+            wknight->draw(window);
+        }
+        if (!wknight1->isCaptured()) {
+            wknight1->draw(window);
+        }
 
         for (auto& pawn : pawns) {
-            pawn->draw(window);
+            if (!pawn->isCaptured()) {
+                pawn->draw(window);
+            }
         }
 
         window.display();
