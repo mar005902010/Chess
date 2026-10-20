@@ -7,6 +7,7 @@
 #include "Pieces/Scripts/Rook.h"
 #include "Pieces/Scripts/Bishop.h"
 #include "Pieces/Scripts/Knight.h"
+#include "chess.h"
 
 using namespace sf;
 using namespace std;
