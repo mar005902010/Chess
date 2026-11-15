@@ -67,6 +67,7 @@ GameState check_and_Mate_Verification(const BoardGrid& boardGrid,PieceColor side
     }
     fen += sideToMove == PieceColor::WHITE
                 ? " w - - 0 1" : " b - - 0 1";
+
     const chess::Board position(fen);
     const auto reason = position.isGameOver().first;
 
