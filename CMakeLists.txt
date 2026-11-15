@@ -1,9 +1,18 @@
-cmake_minimum_required(VERSION 3.20)
-project(Chess)
+cmake_minimum_required(VERSION 3.28)
+project(Chess LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(SFML 3.0.2 COMPONENTS Graphics Window System REQUIRED)
+include(FetchContent)
+FetchContent_Declare(
+        SFML
+        GIT_REPOSITORY https://github.com/sfml/sfml
+        GIT_TAG 3.0.2
+        GIT_SHALLOW ON
+)
+
+FetchContent_MakeAvailable(SFML)
 
 add_executable(Chess main.cpp
         Board.cpp
@@ -21,6 +30,7 @@ add_executable(Chess main.cpp
         Pieces/Scripts/Bishop.cpp
         Pieces/Scripts/Bishop.h
         Pieces/Scripts/Knight.cpp
-        Pieces/Scripts/Knight.h)
+        Pieces/Scripts/Knight.h
+        chess.h)
 
 target_link_libraries(Chess PRIVATE SFML::Graphics SFML::Window SFML::System)

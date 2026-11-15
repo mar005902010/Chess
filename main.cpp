@@ -1,3 +1,4 @@
+#include <mach/mach_traps.h>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "Board.h"
@@ -8,12 +9,71 @@
 #include "Pieces/Scripts/Bishop.h"
 #include "Pieces/Scripts/Knight.h"
 #include "chess.h"
-
 using namespace sf;
 using namespace std;
 
 
+enum GameState {
+    SAFE,
+    CHECK,
+    STALEMATE,
+    CHECKMATE
+};
 
+GameState check_and_Mate_Verification(const BoardGrid& boardGrid,PieceColor sideToMove) {
+    string fen;
+
+    for (int y =0; y<8; ++y) {
+        int empty_s = 0;
+
+        for (int x=0; x<8; ++x) {
+            const auto& piece = boardGrid[y][x];
+
+            if (piece == nullptr) {
+                ++empty_s;
+                continue;
+            }
+            if (empty_s > 0) {
+                fen += to_string(empty_s);
+                empty_s = 0;
+            }
+
+            char symbol;
+
+            switch(piece->getType()) {
+                case PieceType::PAWN: symbol = 'p'; break;
+                case PieceType::KNIGHT: symbol = 'n'; break;
+                case PieceType::ROOK: symbol = 'r'; break;
+                case PieceType::KING: symbol = 'k'; break;
+                case PieceType::BISHOP: symbol = 'b'; break;
+                case PieceType::QUEEN: symbol = 'q'; break;
+                default: return GameState::SAFE;
+            }
+
+            if (piece->getColor() == PieceColor::WHITE) {
+                symbol = static_cast<char>(symbol - ('a' - 'A'));
+            }
+            fen += symbol;
+        }
+
+        if (empty_s >0) {
+            fen += to_string(empty_s);
+        }
+        if (y<7) {
+            fen += '/';
+        }
+
+
+    }
+    fen += sideToMove == PieceColor::WHITE
+                ? " w - - 0 1" : " b - - 0 1";
+    const chess::Board position(fen);
+    const auto reason = position.isGameOver().first;
+
+    if (reason==chess::GameResultReason::STALEMATE) return GameState::STALEMATE
+    if (reason==chess::GameResultReason::CHECKMATE) return GameState::CHECKMATE;
+    return position.inCheck() ? GameState::CHECK : GameState::SAFE;
+}
 int main() {
     RenderWindow window(VideoMode({1280,720}), "chess");
     window.setFramerateLimit(60);
@@ -104,6 +164,8 @@ int main() {
         return boardGrid;
     };
 
+    bool gameOver = false;
+    bool whiteToMove = true;
     while (window.isOpen()) {
 
         while (const optional <Event> event = window.pollEvent()) {
@@ -114,29 +176,45 @@ int main() {
             }
         }
         const BoardGrid boardGrid = buildBoardGrid();
-        //B Movement
-        king->movement(window, boardGrid, board);
-        queen->movement(window, boardGrid, board);
-        rook->movement(window, boardGrid, board);
-        rook1->movement(window, boardGrid, board);
-        bishop->movement(window, boardGrid, board);
-        bishop1->movement(window, boardGrid, board);
-        knight->movement(window, boardGrid, board);
-        knight1->movement(window, boardGrid, board);
-        //W movement
-        wking->movement(window, boardGrid, board);
-        wqueen->movement(window, boardGrid, board);
-        wrook->movement(window, boardGrid, board);
-        wrook1->movement(window, boardGrid, board);
-        wbishop->movement(window, boardGrid, board);
-        wbishop1->movement(window, boardGrid, board);
-        wknight->movement(window, boardGrid, board);
-        wknight1->movement(window, boardGrid, board);
+        bool boardChanged = false;
+        if (!gameOver) {
 
-        for (auto& pawn : pawns) {
-            const BoardGrid boardGrid = buildBoardGrid();
-            pawn->movement(window, boardGrid, board);
+            if (whiteToMove){
+                //W movement
+                boardChanged |= wking->movement(window, boardGrid, board);
+                boardChanged |= wqueen->movement(window, boardGrid, board);
+                boardChanged |= wrook->movement(window, boardGrid, board);
+                boardChanged |= wrook1->movement(window, boardGrid, board);
+                boardChanged |= wbishop->movement(window, boardGrid, board);
+                boardChanged |= wbishop1->movement(window, boardGrid, board);
+                boardChanged |= wknight->movement(window, boardGrid, board);
+                boardChanged |= wknight1->movement(window, boardGrid, board);
+            }else {
+                //B Movement
+                boardChanged |= king->movement(window, boardGrid, board);
+                boardChanged |= queen->movement(window, boardGrid, board);
+                boardChanged |= rook->movement(window, boardGrid, board);
+                boardChanged |= rook1->movement(window, boardGrid, board);
+                boardChanged |= bishop->movement(window, boardGrid, board);
+                boardChanged |= bishop1->movement(window, boardGrid, board);
+                boardChanged |= knight->movement(window, boardGrid, board);
+                boardChanged |= knight1->movement(window, boardGrid, board);
+            }
+            for (auto& pawn : pawns) {
+                if (pawn->getColor() != (whiteToMove ? PieceColor::WHITE : PieceColor::BLACK)) continue;
+                boardChanged |= pawn->movement(window, boardGrid, board);
+            }
+
+            if (boardChanged) {
+                whiteToMove = !whiteToMove;
+                const GameState state_of_game = check_and_Mate_Verification(
+                    buildBoardGrid(),
+                    whiteToMove ? PieceColor::WHITE : PieceColor::BLACK
+                );
+                gameOver = state_of_game == GameState::CHECKMATE || state_of_game == GameState::STALEMATE;
+            }
         }
+
         window.clear(Color::White);
         board.draw(window);
         //B Draw
@@ -195,6 +273,8 @@ int main() {
                 pawn->draw(window);
             }
         }
+
+
 
         window.display();
 

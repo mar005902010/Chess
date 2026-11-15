@@ -40,7 +40,7 @@ void King::draw(RenderWindow& window) {
     window.draw(sprite);
 }
 
-void King::movement(RenderWindow &window, const BoardGrid &board, const Board &layout) {
+bool King::movement(RenderWindow &window, const BoardGrid &board, const Board &layout) {
     const Vector2f mousePosition = window.mapPixelToCoords(Mouse::getPosition(window));
     const bool leftPressed = Mouse::isButtonPressed(Mouse::Button::Left);
     const FloatRect bounds = sprite.getGlobalBounds();
@@ -86,6 +86,7 @@ void King::movement(RenderWindow &window, const BoardGrid &board, const Board &l
                 }
                 sprite.setPosition({snappedX, snappedY});
                 setPosition(boardx, boardy);
+                return true;
             }else {
                 sprite.setPosition({320.f + static_cast<float>(g_x) * 80.f, 40.f + static_cast<float>(g_y) * 80.f});
             }
@@ -93,6 +94,7 @@ void King::movement(RenderWindow &window, const BoardGrid &board, const Board &l
         }
     }
     moved = leftPressed;
+    return false;
 }
 
 

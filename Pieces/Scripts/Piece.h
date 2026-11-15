@@ -35,6 +35,7 @@ class Piece {
 
         void setPosition(int x, int y);
         void capture();
+        void setCaptured(bool value);
 };
 
 

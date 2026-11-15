@@ -59,7 +59,7 @@ void Pawn::draw(RenderWindow &window) {
     window.draw(sprite);
 }
 
-void Pawn::movement(RenderWindow &window, const BoardGrid& board, const Board& layout) {
+bool Pawn::movement(RenderWindow &window, const BoardGrid& board, const Board& layout) {
 
     const Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
 
@@ -109,6 +109,7 @@ void Pawn::movement(RenderWindow &window, const BoardGrid& board, const Board& l
                 }
                 sprite.setPosition({snappedX, snappedY});
                 setPosition(boardx, boardy);
+                return true;
             }else {
                 sprite.setPosition({320.f + static_cast<float>(g_x)*80.f, 40.f + static_cast<float>(g_y)*80.f});
             }

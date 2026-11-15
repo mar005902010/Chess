@@ -9,7 +9,7 @@ public:
     Queen(PieceColor color, int x, int y);
     bool isMoved(int t_x, int t_y, const BoardGrid& board) override;
     void draw(RenderWindow& window);
-    void movement(RenderWindow& window, const BoardGrid& board, const Board& layout);
+    bool movement(RenderWindow& window, const BoardGrid& board, const Board& layout);
 
 private:
     Texture texture;

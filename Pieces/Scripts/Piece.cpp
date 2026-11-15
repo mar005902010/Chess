@@ -19,3 +19,7 @@ void Piece::setPosition(int x, int y) {
 void Piece::capture() {
     captured = true;
 }
+
+void Piece::setCaptured(bool value) {
+    captured = value;
+}
